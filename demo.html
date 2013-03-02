@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Knockout datepicker example</title>
+	<link href="css/smoothness/jquery-ui-1.10.1.custom.css" rel="stylesheet">
+	<script src="jquery/jquery-1.9.1.js"></script>
+	<script src="jquery/jquery-ui-1.10.1.custom.js"></script>
+    <script src="knockout/knockout-2.2.1.js"></script>
+    <script src="ko.datepicker.js"></script>
+
+    <script>
+        function ViewModel() {
+            this.start = ko.observable();
+            this.end = ko.observable();
+
+            this.start(new Date(2012, 0, 1));
+
+            this.range = ko.observable();
+            this.range({ start: new Date(2012, 0, 1), end: new Date(2015, 11, 31) });            
+
+            this.send = function () {
+                var data = this.range();
+                // Refresh the UI.
+                this.range(data);
+            }
+        }
+
+        $(function () {
+            ko.applyBindings(new ViewModel());
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <h2>Two way binding:</h2>
+        <p>
+            <label>start:</label>
+            <input type="text" data-bind="datepicker: start" />
+            <span data-bind="text: start"></span>
+        </p>
+        <p>
+            <label>end:</label>
+            <input type="text" data-bind="datepicker: end" />
+            <span data-bind="text: end"></span>
+        </p>
+    </div>
+    
+    <div data-bind="with: range">
+        <h2>One way binding:</h2>
+        <p>
+            <label>start:</label>
+            <input type="text" data-bind="datepicker: start, datepickerOptions: { numberOfMonths: 3 }" />
+            <span data-bind="text: start"></span>
+        </p>
+        <p>
+            <label>start:</label>
+            <input type="text" data-bind="datepicker: end" />
+            <span data-bind="text: end"></span>
+        </p>
+    </div>
+    
+    <p>
+        <button data-bind="click: send">Send</button>
+    </p>
+</body>
+</html>
